@@ -3,6 +3,39 @@
 import UIKit
 import XCPlayground
 
+// If data is successfully retrieved from the server, we can parse it here
+func parseMyJSON(theData : NSData) {
+    
+    // Print the provided data
+    print("")
+    print("====== the data provided to parseMyJSON is as follows ======")
+    print(theData)
+
+    // De-serializing JSON can throw errors, so should be inside a do-catch structure
+    do {
+        
+        // Do the initial de-serialization
+        // Source JSON is here:
+        // http://www.learnswiftonline.com/Samples/subway.json
+        //
+        let json = try NSJSONSerialization.JSONObjectWithData(theData, options: NSJSONReadingOptions.AllowFragments) as! AnyObject
+        
+        // Print retrieved JSON
+        print("")
+        print("====== the retrieved JSON is as follows ======")
+        print(json)
+        
+        // Now we can parse this...
+        print("")
+        print("Now, add your parsing code here...")
+
+    } catch let error as NSError {
+        print ("Failed to load: \(error.localizedDescription)")
+    }
+
+    
+}
+
 // Define a completion handler
 // The completion handler is what gets called when this **asynchronous** network request is completed.
 // This is where we'd process the JSON retrieved
@@ -26,6 +59,23 @@ let myCompletionHandler : (NSData?, NSURLResponse?, NSError?) -> Void = {
     print("")
     print("====== errors from the request follows ======")
     print(error)
+    
+    // Cast the NSURLResponse object into an NSHTTPURLResponse objecct
+    if let r = response as? NSHTTPURLResponse {
+        
+        // If the request was successful, parse the given data
+        if r.statusCode == 200 {
+            
+            if let d = data {
+                
+                // Parse the retrieved data
+                parseMyJSON(d)
+                
+            }
+            
+        }
+        
+    }
 
 
 }
