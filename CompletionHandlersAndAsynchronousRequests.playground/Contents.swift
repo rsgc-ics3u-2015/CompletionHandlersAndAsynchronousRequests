@@ -9,7 +9,11 @@ let address : String = "http://www.learnswiftonline.com/Samples/subway.json"
 if let url = NSURL(string: address) {
     
     // We have an valid URL to work with
-    print(url)    
+    print(url)
+    
+    // Now we need to create an NSURLSession object to send the request to the server
+    let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+    let session = NSURLSession(configuration: config)
     
 } else {
     
